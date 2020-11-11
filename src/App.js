@@ -1,25 +1,50 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import { Link, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
+import IssueList from './components/IssueList/IssueList';
+import IssuesByLabel from './components/IssuesByLabel/IssuesByLabel';
+import IssueDetail from './components/IssueDetail/IssueDetail';
+import  Users  from './components/Users/Users'
+import UserDetail from './components/UserDetail/UserDetail';
+
+
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
+  // useEffect(() => {
+  //   if (!loggedIn) {
+  //     history.push('/');
+  //   }
+  // }, [loggedIn, history]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/issues">Issues</Link></li>
+        <li><Link to="/users">User Search</Link></li>
+
+  
+      </ul>
+      <div>
+        <Switch>
+          <Route exact path="/">
+            <h1>Home</h1>
+          </Route>
+ 
+            <>
+            <Route path="/issues/:number" component={IssueDetail} />
+            <Route path="/issues" component={IssueList} />
+            <Route path="/labels/:name" component={IssuesByLabel} />
+            <Route exact path="/users" component={Users}/>
+            <Route path="/users/:user" component={UserDetail}/>
+            </>
+          <Route>
+            <Redirect to="/" />
+          </Route>
+        </Switch>
+      </div>
+    </>
   );
 }
-
 export default App;
